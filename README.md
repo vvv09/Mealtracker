@@ -1,5 +1,5 @@
 # Mealtracker (mealtracker)
-
+<img src="app-icon.png?raw=true" alt="Alt text" width="128" height="128">
 Simple diary to control ones meal
 
 ## Install the dependencies
