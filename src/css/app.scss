@@ -1,1 +1,22 @@
 // app global css in SCSS form
+@import './brand-colors.scss';
+@import './theme.scss';
+@import './quasar.overrides.scss';
+
+.start-with-primary-bg:before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    content: "";
+    display: block;
+    height: 116px; // установлено экспериментально, чтобы совпадало с нижнем краем картинки на дравере
+    background: $primary;
+}
+
+.text-dimmed {
+    opacity: 0.6;
+    &-more {
+        opacity: 0.3;
+    }
+}

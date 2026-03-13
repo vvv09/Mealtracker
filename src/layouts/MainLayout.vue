@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header>
       <q-toolbar>
         <q-btn
           flat
@@ -12,32 +12,68 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          Home
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-chip 
+          :icon=Icons.CHEATMEAL 
+          color="white" 
+          text-color="primary"
+          v-if="storeProfile.profile.cheatMealsLimit"
+          class="q-mr-md"
+        > 
+          {{ storeProfile.profile.cheatMealsLimit }}
+        </q-chip>
+
+        <transition
+          mode="out-in"
+          enter-active-class="animated fadeInRight"
+          leave-active-class="animated fadeOutRight"
+        >
+          <div v-if="route.name === 'diary'">
+            
+            <q-tabs
+              v-if="isDesktop()"
+              v-model="storeApp.appstate.diaryActiveTab"
+              dense
+              no-caps
+              inline-label
+              class="text-white"
+            >
+              <q-tab name="diary" :icon=Icons.DIARY label="Meals" />
+              <q-tab name="statistics" :icon=Icons.STATISTICS label="Statistics" />
+            </q-tabs>
+            <q-btn 
+              v-else-if="storeApp.appstate.diaryActiveTab === 'statistics'"
+              :icon=Icons.DIARY 
+              rounded 
+              dense 
+              flat
+              @click="storeApp.appstate.diaryActiveTab = 'diary'"
+            />
+            <q-btn 
+              v-else-if="storeApp.appstate.diaryActiveTab === 'diary'"
+              :icon=Icons.STATISTICS 
+              rounded 
+              dense 
+              flat
+              @click="storeApp.appstate.diaryActiveTab = 'statistics'"
+            />
+          </div>
+          <div v-else-if="route.name === 'products'">
+            <AddProductBtn/>
+          </div>
+          <div v-else-if="route.name === 'archive'">
+            <ArchiveMenuBtn/>
+          </div>
+          <div v-else class="not-remove-it"> 
+            Quasar v{{ $q.version }}
+          </div>
+        </transition>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
+    <Drawer v-model="leftDrawerOpen"/>
 
     <q-page-container>
       <router-view />
@@ -46,57 +82,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
+  import { ref } from 'vue';
+  import Drawer from './Drawer.vue'
+  import AddProductBtn from 'src/components/buttons/AddProductBtn.vue'
+  import ArchiveMenuBtn from 'src/components/buttons/ArchiveMenuBtn.vue'
+  import { Icons } from 'src/constants/icons'
+  import isDesktop from 'src/utils/isDesktop'
 
-const linksList: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+
+  const leftDrawerOpen = ref(false);
+
+  import { useStoreApp } from 'src/stores/app-store'
+  const storeApp = useStoreApp()  
+
+  import { useStoreProfile } from 'src/stores/profile-store'
+  const storeProfile = useStoreProfile()
+
+  function toggleLeftDrawer () {
+    leftDrawerOpen.value = !leftDrawerOpen.value;
   }
-];
 
-const leftDrawerOpen = ref(false);
+  /*  
+    Routing
+  */
+    
+  import { useRoute, useRouter } from 'vue-router'
+  const route = useRoute()
+  const router = useRouter()
 
-function toggleLeftDrawer () {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
 </script>

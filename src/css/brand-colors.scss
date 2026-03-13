@@ -1,0 +1,23 @@
+.text- {
+    &calories {
+        color: $color-calories !important;
+    }
+    &protein {
+        color: $color-protein !important;
+    }
+    &fiber {
+        color: $color-fiber !important;
+    }
+}
+
+.bg- {
+    &calories {
+        background: $color-calories !important;
+    }
+    &protein {
+        background: $color-protein !important;
+    }
+    &fiber {
+        background: $color-fiber !important;
+    }
+}

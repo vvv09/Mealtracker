@@ -1,0 +1,11 @@
+.body--light {
+  .bg-page {
+    background: #f5f5f5 !important;
+  }
+}
+
+.body--dark {
+  .bg-page {
+    background: $dark-page !important;
+  }
+}

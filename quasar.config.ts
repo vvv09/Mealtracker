@@ -25,12 +25,12 @@ export default defineConfig((ctx) => {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v7',
-      // 'fontawesome-v6',
+       'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
-
+      'material-symbols-outlined',
       'roboto-font', // optional, you are not bound to it
       'material-icons', // optional, you are not bound to it
     ],
@@ -105,12 +105,24 @@ export default defineConfig((ctx) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'Dialog', 
+        'Notify', 
+        'LocalStorage',
+        'BottomSheet',
+      ]
     },
 
     // animations: 'all', // --- includes all animations
     // https://v2.quasar.dev/options/animations
-    animations: [],
+    animations: [
+      'rotateIn', 'rotateOut', 
+      'rollIn', 'rollOut',
+      'flipInY', 'flipOutY', 
+      'fadeInUp', 'fadeOutDown', //FAB on Diary page
+      'fadeInLeft', 'fadeOutLeft', //Title in header
+      'fadeInRight', 'fadeOutRight', //Actions in header
+    ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#sourcefiles
     // sourceFiles: {
